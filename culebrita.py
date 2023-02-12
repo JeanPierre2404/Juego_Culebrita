@@ -28,8 +28,8 @@ comida.color('red')
 comida.penup()
 comida.goto(0,100)#posicion de la pantalla
 
-
-
+#cuerpo de la serpiente /Segmentos
+segmento=[]
 
 #funciones
 #funcion para mover hacia arriba
@@ -76,7 +76,30 @@ while True:
     if head.distance(comida)<20:
         x = random.randint(-280,280)#crear un numero entero
         y =  random.randint(-280,280)
-        comida.goto(x,y)  #actualizar la posion  
+        comida.goto(x,y)  #actualizar la posion 
+
+        nuevo_segmento = turtle.Turtle()
+        nuevo_segmento.speed(0)#
+        nuevo_segmento.shape('square')#forma cuadrado
+        nuevo_segmento.color('grey')
+        nuevo_segmento.penup()
+
+        segmento.append(nuevo_segmento)
+
+    #mover el cuerpo de la serpiente
+    totalSeg = len(segmento)
+    for index in range(totalSeg -1, 0, -1):
+        x = segmento[index-1].xcor()
+        y = segmento[index-1].ycor()
+        segmento[index].goto(x,y)
+    if totalSeg >0:
+        x = head.xcor()
+        y = head.ycor()
+        segmento[0].goto(x,y)
+
+
+
+
     movHead()
     time.sleep(posponer)
 
