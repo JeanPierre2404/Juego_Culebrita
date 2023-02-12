@@ -1,5 +1,6 @@
 import turtle
 import time
+import random
 
 posponer = 0.1#evitar que el programa vaya muy rapido
 
@@ -18,6 +19,17 @@ head.color('white')
 head.penup()
 head.goto(0,0)#posicion de la pantalla
 head.direction='stop'#estableciando direccion
+
+#creando comida randomico
+comida = turtle.Turtle()
+comida.speed(0)#
+comida.shape('circle')#forma circulo
+comida.color('red')
+comida.penup()
+comida.goto(0,100)#posicion de la pantalla
+
+
+
 
 #funciones
 #funcion para mover hacia arriba
@@ -60,6 +72,11 @@ ventana.onkeypress(derecha,'Right')
 #creando bucle
 while True:
     ventana.update()
+    #definir distancia entre 2 obajetos
+    if head.distance(comida)<20:
+        x = random.randint(-280,280)#crear un numero entero
+        y =  random.randint(-280,280)
+        comida.goto(x,y)  #actualizar la posion  
     movHead()
     time.sleep(posponer)
 
