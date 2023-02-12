@@ -72,6 +72,19 @@ ventana.onkeypress(derecha,'Right')
 #creando bucle
 while True:
     ventana.update()
+
+    #condifciones para los bordes(perder)
+    if head.xcor() >280 or head.xcor() < -280 or head.ycor() > 280 or head.ycor() < -280:
+        time.sleep(1)
+        head.goto(0,0)
+        head.direction = 'stop'
+
+        #esconder segementos
+        for segmentos in segmento:
+            segmentos.goto(1000,1000)
+        #limpiar lista de segmentos 
+        segmento.clear()
+
     #definir distancia entre 2 obajetos
     if head.distance(comida)<20:
         x = random.randint(-280,280)#crear un numero entero
