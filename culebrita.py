@@ -4,6 +4,11 @@ import random
 
 posponer = 0.1#evitar que el programa vaya muy rapido
 
+#marcador 
+score = 0
+high_score = 0
+
+
 #Configurando la ventana
 ventana = turtle.Screen()#crear ventana
 ventana.title('Juego Skanek | Amadeus')#colocando titulo
@@ -30,6 +35,15 @@ comida.goto(0,100)#posicion de la pantalla
 
 #cuerpo de la serpiente /Segmentos
 segmento=[]
+
+#creacion de textos
+texto = turtle.Turtle()
+texto.speed(0)
+texto.color('white')
+texto.penup()
+texto.hideturtle()
+texto.goto(0,260)
+texto.write('Puntos: 0    High Score = 0', align='center', font = ('Courier', 24, 'normal'))
 
 #funciones
 #funcion para mover hacia arriba
@@ -73,7 +87,7 @@ ventana.onkeypress(derecha,'Right')
 while True:
     ventana.update()
 
-    #condifciones para los bordes(perder)
+    #conliciones para los bordes(perder)
     if head.xcor() >280 or head.xcor() < -280 or head.ycor() > 280 or head.ycor() < -280:
         time.sleep(1)
         head.goto(0,0)
@@ -84,6 +98,14 @@ while True:
             segmentos.goto(1000,1000)
         #limpiar lista de segmentos 
         segmento.clear()
+
+        #resetear marcador
+        score=0
+        texto.clear()
+        texto.write('Puntos: {}    High Score = {}'.format(score,high_score),
+         align='center', font = ('Courier', 24, 'normal'))
+    
+
 
     #definir distancia entre 2 obajetos
     if head.distance(comida)<20:
@@ -98,7 +120,14 @@ while True:
         nuevo_segmento.penup()
 
         segmento.append(nuevo_segmento)
-
+        #aumentar marcador
+        score+=10
+        if score>high_score:
+            high_score=score
+        texto.clear()
+        texto.write('Puntos: {}    High Score = {}'.format(score,high_score),
+         align='center', font = ('Courier', 24, 'normal'))
+    
     #mover el cuerpo de la serpiente
     totalSeg = len(segmento)
     for index in range(totalSeg -1, 0, -1):
@@ -114,6 +143,24 @@ while True:
 
 
     movHead()
+    #colisiones con el cuerpo
+    for segmentos in segmento:
+        if segmentos.distance(head) <20:
+            time.sleep(1)
+            head.goto(0,0)
+            head.direction ='stop'
+
+            #esconder los segmentos
+            for segmentos in segmento:
+                segmentos.goto(1000,1000)
+            segmentos.clear()
+
+            score=0
+            texto.clear()
+            texto.write('Puntos: {}    High Score = {}'.format(score,high_score),
+            align='center', font = ('Courier', 24, 'normal'))
+    
+
     time.sleep(posponer)
 
 ventana.exitonclick()#evitar que se apague la pantalla solito
